@@ -121,7 +121,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkInAMovie(int id) // need to make such that duebackdate is reset
+        public static void checkInAMovie(int id) // need to make such that duebackdate is reset, rental log is filled.
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -138,7 +138,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkOutAMovie(int id) // need to make such that duebackdate is datetime.now+10
+        public static void checkOutAMovie(int id) // need to make such that duebackdate is datetime.now+10, rental log is filled.
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -161,18 +161,20 @@ namespace Primetime.Services
             {
                 name = movie.name,
                 description = movie.description,
-                isCheckedOut = movie.isCheckedOut
+                isCheckedOut = movie.isCheckedOut,
+                genreID = movie.genreID
             };
             using (var connection = new SqlConnection(connectionStrings))
             {
                 using (var cmd = new SqlCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Movie (Name, Description, isCheckedOut) VALUES (@Name, @Description, @isCheckedOut)";
+                    cmd.CommandText = @"INSERT INTO Movie (Name, Description, isCheckedOut, genreID) VALUES (@Name, @Description, @isCheckedOut, @genreId)";
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@Name", movie.name);
                     cmd.Parameters.AddWithValue("@Description", movie.description);
                     cmd.Parameters.AddWithValue("@isCheckedOut", movie.isCheckedOut);
+                    cmd.Parameters.AddWithValue("@genreID", movie.genreID);
                     connection.Open();
                     var reader = cmd.ExecuteReader();
                     connection.Close();
@@ -180,6 +182,8 @@ namespace Primetime.Services
             }
             testMovies.Add(movietoadd);
         }
+
+        //v--Admin Services--v//
 
         public static List<MovieViewModel> getAllMoviesWithGenres()
         {
@@ -219,5 +223,37 @@ namespace Primetime.Services
                 return rv;
             }
         }
+
+        public static Movie ViewModeltoMovie(MovieViewModel movievm)
+        {
+            var rv = new Movie();
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"SELECT Genre.Id FROM Genre WHERE Genre.Name = '@genrename'";
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Parameters.AddWithValue("@genrename", movievm.genreName);
+
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var genreid = reader[0];
+
+                        rv = new Movie()
+                        {
+                            name = movievm.name,
+                            description = movievm.description,
+                            genreID = genreid as int?,
+                            isCheckedOut = false
+                        };
+                        
+                    }
+                }
+                return rv;
+            }
+        } // reader.read is skipping.
     }
 }

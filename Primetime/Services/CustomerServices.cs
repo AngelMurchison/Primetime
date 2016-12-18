@@ -118,7 +118,7 @@ namespace Primetime.Services
                 return rv;
             }
         }
-        public static void editACustomer(int id, string name, string email, string phoneNumber) // give these values to method when edit is clicked.
+        public static void editACustomer(int id, string name, string email, string phoneNumber)
         {
             using (var connection = new SqlConnection(connectionStrings))
             {

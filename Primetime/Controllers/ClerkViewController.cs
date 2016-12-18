@@ -103,26 +103,7 @@ namespace Primetime.Controllers
             return RedirectToAction("clerkCustomerIndex");
         }
 
-        public ActionResult adminIndex()
-        {
-            var movies = Services.MovieServices.getAllMoviesWithGenres();
-            return View(movies);
-        }
 
-        public ActionResult addAMovie()
-        {
-            return View();
-        }
-        
-        public ActionResult editAMovie()
-        {
-            return View();
-        }
-        
-        public ActionResult deleteAMovie()
-        {
-            return View();
-        }
 
 
     }

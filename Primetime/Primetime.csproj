@@ -148,6 +148,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminViewController.cs" />
     <Compile Include="Controllers\ClerkViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -160,6 +161,7 @@
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomerServices.cs" />
+    <Compile Include="Services\GenreServices.cs" />
     <Compile Include="Services\MovieServices.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +199,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ClerkView\clerkMovieIndex.cshtml" />
     <Content Include="Views\ClerkView\checkIn.cshtml" />
     <Content Include="Views\ClerkView\checkOut.cshtml" />
@@ -207,11 +206,15 @@
     <Content Include="Views\ClerkView\createACustomer.cshtml" />
     <Content Include="Views\ClerkView\deleteACustomer.cshtml" />
     <Content Include="Views\ClerkView\editACustomer.cshtml" />
-    <Content Include="Views\ClerkView\adminIndex.cshtml" />
+    <Content Include="Views\AdminView\adminIndex.cshtml" />
+    <Content Include="Views\AdminView\addAMovie.cshtml" />
+    <Content Include="Views\AdminView\genreIndex.cshtml" />
+    <Content Include="Views\AdminView\addAGenre.cshtml" />
+    <Content Include="Views\AdminView\updateAGenre.cshtml" />
+    <Content Include="Views\AdminView\deleteAGenre.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AdminView%28%29\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
