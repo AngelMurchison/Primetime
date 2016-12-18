@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Primetime.Models.MovieViewModel>
+
+@{
+    ViewBag.Title = "adminIndex";
+}
+
+<h2>Administrator Movie Index</h2>
+
+<p>
+    @Html.ActionLink("Add a movie", "addAMovie")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isCheckedOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.genreName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isCheckedOut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.genreName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "editAMovie", new { id=item.Id }) |
+            @Html.ActionLink("Details", "movieDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "deleteAMovie", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

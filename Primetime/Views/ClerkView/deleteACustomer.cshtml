@@ -1,0 +1,49 @@
+﻿@model Primetime.Models.Customer
+
+@{
+    ViewBag.Title = "deleteACustomer";
+}
+
+<h2>Remove Customer</h2>
+
+<h3>Are you sure you want to remove this ?</h3>
+<div>
+    
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phoneNumber)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("customerDeletion", "ClerkView", new {id = Model.Id })) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "clerkCustomerIndex")
+        </div>
+    }
+</div>
