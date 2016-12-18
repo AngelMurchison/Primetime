@@ -126,10 +126,11 @@ namespace Primetime.Services
                 {
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = $@"UPDATE Customer SET Name= @name, Email = @email, Phone = @phoneNumber  WHERE Id={id};";
-                    cmd.Parameters.AddWithValue("name", "aoaoa");
-                    cmd.Parameters.AddWithValue("email", "aoaoa");
-                    cmd.Parameters.AddWithValue("phoneNumber", "aoaoa");
+                    cmd.CommandText = $@"UPDATE Customer SET Name= @name, Email = @email, Phone = @phoneNumber  WHERE Id=@id;";
+                    cmd.Parameters.AddWithValue("name", name);
+                    cmd.Parameters.AddWithValue("email", email);
+                    cmd.Parameters.AddWithValue("phoneNumber", phoneNumber);
+                    cmd.Parameters.AddWithValue("id", id);
 
                     connection.Open();
                     var reader = cmd.ExecuteReader();
@@ -161,6 +162,23 @@ namespace Primetime.Services
                 }
             }
         } // create
+        public static void removeACustomer(int id)
+        {
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Customer WHERE Id = @id;";
+                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    connection.Close();
+                }
+            }
+        }
+
  
     }
 }

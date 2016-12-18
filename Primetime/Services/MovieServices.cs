@@ -121,7 +121,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkInAMovie(int id)
+        public static void checkInAMovie(int id) // need to make such that duebackdate is reset
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -138,7 +138,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkOutAMovie(int id)
+        public static void checkOutAMovie(int id) // need to make such that duebackdate is datetime.now+10
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -179,6 +179,45 @@ namespace Primetime.Services
                 }
             }
             testMovies.Add(movietoadd);
+        }
+
+        public static List<MovieViewModel> getAllMoviesWithGenres()
+        {
+            var rv = new List<MovieViewModel>();
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = @"SELECT Movie.Id, Movie.Name, Movie.Description, movie.isCheckedOut, Genre.Name as Genre
+                                        FROM Movie 
+                                        JOIN Genre on Movie.genreID = Genre.Id";
+
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var id = reader["Id"];
+                        var Name = reader[1];
+                        var Description = reader[2];
+                        var isCheckedOut = reader[3];
+                        var genreName = reader[4];
+
+                        var movie = new MovieViewModel
+                        {
+                            Id = (int)id,
+                            name = Name as string,
+                            description = Description as string,
+                            isCheckedOut = isCheckedOut as bool ?,
+                            genreName = genreName as string
+                        };
+                        rv.Add(movie);
+                    }
+                    connection.Close();
+                }
+                return rv;
+            }
         }
     }
 }

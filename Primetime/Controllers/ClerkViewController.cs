@@ -64,28 +64,62 @@ namespace Primetime.Controllers
 
         public ActionResult createACustomer()
         {
-
             return View();
         }
 
-        public ActionResult customerCreation(string name, string email, string phone)
+        public ActionResult customerCreation(string name, string email, string phoneNumber)
         {
             var customer = new Customer()
             {
                 name = name,
                 email = email,
-                phoneNumber = phone
+                phoneNumber = phoneNumber
             };
             Services.CustomerServices.addACustomer(customer);
             return RedirectToAction("clerkCustomerIndex");
         }
 
-        public ActionResult deleteACustomer()
+        public ActionResult deleteACustomer(int id)
+        {
+            var customer = Services.CustomerServices.getACustomer(id);
+            return View(customer);
+        }
+
+        public ActionResult customerDeletion(int id)
+        {
+            Services.CustomerServices.removeACustomer(id);
+            return RedirectToAction("clerkCustomerIndex");
+        }
+
+        public ActionResult editACustomer(int id)
+        {
+            var customer = Services.CustomerServices.getACustomer(id);
+            return View(customer);
+        }
+
+        public ActionResult customerEdit(string name, string email, string phoneNumber, int id)
+        {
+            Services.CustomerServices.editACustomer(id, name, email, phoneNumber);
+            return RedirectToAction("clerkCustomerIndex");
+        }
+
+        public ActionResult adminIndex()
+        {
+            var movies = Services.MovieServices.getAllMoviesWithGenres();
+            return View(movies);
+        }
+
+        public ActionResult addAMovie()
         {
             return View();
         }
-        // v make these ^
-        public ActionResult editACustomer()
+        
+        public ActionResult editAMovie()
+        {
+            return View();
+        }
+        
+        public ActionResult deleteAMovie()
         {
             return View();
         }
