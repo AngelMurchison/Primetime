@@ -51,7 +51,7 @@ namespace Primetime.Services
             addAMovie(passionOfTheMice);
             addAMovie(passionOfTheRice);
         }
-            
+
         public static List<Movie> getAllMovies()
         {
             var rv = new List<Movie>();
@@ -184,6 +184,40 @@ namespace Primetime.Services
         }
 
         //v--Admin Services--v//
+        public static List<Movie> getCheckedOutMovies()
+        {
+            var rv = new List<Movie>();
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = @"SELECT Id, Name, Description, isCheckedOut FROM Movie WHERE isCheckedOut = 1";
+
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var id = reader["Id"];
+                        var Name = reader[1];
+                        var Description = reader[2];
+                        var isCheckedOut = reader[3];
+
+                        var movie = new Movie
+                        {
+                            Id = (int)id,
+                            name = Name as string,
+                            description = Description as string,
+                            isCheckedOut = isCheckedOut as bool?
+                        };
+                        rv.Add(movie);
+                    }
+                    connection.Close();
+                }
+                return rv;
+            }
+        }
 
         public static List<MovieViewModel> getAllMoviesWithGenres()
         {
@@ -254,6 +288,6 @@ namespace Primetime.Services
                 }
                 return rv;
             }
-        } // reader.read is skipping.
+        } // reader.read is not executing.
     }
 }

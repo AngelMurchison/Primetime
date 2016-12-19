@@ -158,11 +158,13 @@
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieViewModel.cs" />
+    <Compile Include="Models\RentalViewModel.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomerServices.cs" />
     <Compile Include="Services\GenreServices.cs" />
     <Compile Include="Services\MovieServices.cs" />
+    <Compile Include="Services\RentalServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -208,10 +210,12 @@
     <Content Include="Views\ClerkView\editACustomer.cshtml" />
     <Content Include="Views\AdminView\adminIndex.cshtml" />
     <Content Include="Views\AdminView\addAMovie.cshtml" />
-    <Content Include="Views\AdminView\genreIndex.cshtml" />
+    <Content Include="Views\AdminView\adminGenreIndex.cshtml" />
     <Content Include="Views\AdminView\addAGenre.cshtml" />
     <Content Include="Views\AdminView\updateAGenre.cshtml" />
     <Content Include="Views\AdminView\deleteAGenre.cshtml" />
+    <Content Include="Views\AdminView\viewCheckedOut.cshtml" />
+    <Content Include="Views\AdminView\viewOverDue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
