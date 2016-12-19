@@ -39,16 +39,30 @@ namespace Primetime.Controllers
             var movie = Services.MovieServices.ViewModeltoMovie(movievm);
             MovieServices.addAMovie(movie);
             return RedirectToAction("adminIndex");
-        } // can't progress with CRUD until VM-to-Movie service is functional.
+        } //  finish edit and delete functionality.
 
-        public ActionResult editAMovie()
+        public ActionResult editAMovie(MovieViewModel movievm)
         {
-            return View();
+            return View(movievm);
         }
 
-        public ActionResult deleteAMovie()
+        public ActionResult movieEdit(MovieViewModel movievm)
         {
-            return View();
+            var movie = MovieServices.ViewModeltoMovie(movievm);
+            MovieServices.editAMovie(movie);
+            return RedirectToAction("adminIndex");
+        }
+
+        public ActionResult deleteAMovie(MovieViewModel movievm)
+        {
+            return View(movievm);
+        }
+
+        public ActionResult movieDeletion(MovieViewModel movievm)
+        {
+            var movie = MovieServices.ViewModeltoMovie(movievm);
+            MovieServices.deleteAMovie(movievm); // make this, add this controller to delete button.      
+            return RedirectToAction("adminIndex");
         }
 
         public ActionResult adminGenreIndex()

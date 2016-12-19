@@ -7,7 +7,7 @@ namespace Primetime.Models
 {
     public class RentalViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string customerName { get; set; }
         public string customerEmail { get; set; }
         public string customerPhone { get; set; }

@@ -216,6 +216,7 @@
     <Content Include="Views\AdminView\deleteAGenre.cshtml" />
     <Content Include="Views\AdminView\viewCheckedOut.cshtml" />
     <Content Include="Views\AdminView\viewOverDue.cshtml" />
+    <Content Include="Views\AdminView\deleteAMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

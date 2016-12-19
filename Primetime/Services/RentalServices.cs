@@ -20,25 +20,27 @@ namespace Primetime.Services
                 {
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = @"SELECT Movie.Name as Movie, Customer.Name as Customer, Customer.Email, Customer.Phone, RentalLog.RentalDate, RentalLog.DueDate 
+                    cmd.CommandText = @"SELECT RentalLog.Id, Movie.Name as Movie, Customer.Name as Customer, Customer.Email, Customer.Phone, RentalLog.RentalDate, RentalLog.DueDate 
                                         FROM RentalLog 
                                         JOIN Movie on Movie.Id = RentalLog.MovieId
                                         JOIN Customer on Customer.Id = RentalLog.CustomerId
-                                        WHERE RentalLog.DueDate < GETDATE()";
+                                        WHERE RentalLog.DueDate < GETDATE() AND RentalLog.ReturnDate is NULL";
 
                     connection.Open();
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var movieName = reader[0];
-                        var customerName = reader[1];
-                        var customerEmail = reader[2];
-                        var customerPhone = reader[3];
-                        var rentalDate = reader[4];
-                        var dueDate = reader[5];
+                        var rentalId = reader[0];
+                        var movieName = reader[1];
+                        var customerName = reader[2];
+                        var customerEmail = reader[3];
+                        var customerPhone = reader[4];
+                        var rentalDate = reader[5];
+                        var dueDate = reader[6];
 
                         var rental = new RentalViewModel
                         {
+                            Id = rentalId as int?,
                             movieName = movieName as string,
                             customerName = customerName as string,
                             customerEmail = customerEmail as string,

@@ -180,7 +180,6 @@ namespace Primetime.Services
                     connection.Close();
                 }
             }
-            testMovies.Add(movietoadd);
         }
 
         //v--Admin Services--v//
@@ -247,7 +246,7 @@ namespace Primetime.Services
                             Id = (int)id,
                             name = Name as string,
                             description = Description as string,
-                            isCheckedOut = isCheckedOut as bool ?,
+                            isCheckedOut = isCheckedOut as bool?,
                             genreName = genreName as string
                         };
                         rv.Add(movie);
@@ -265,7 +264,7 @@ namespace Primetime.Services
             {
                 using (var cmd = new SqlCommand())
                 {
-                    cmd.CommandText = @"SELECT Genre.Id FROM Genre WHERE Genre.Name = '@genrename'";
+                    cmd.CommandText = @"SELECT Genre.Id FROM Genre WHERE Genre.Name = @genrename";
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@genrename", movievm.genreName);
@@ -283,7 +282,7 @@ namespace Primetime.Services
                             genreID = genreid as int?,
                             isCheckedOut = false
                         };
-                        
+
                     }
                 }
                 return rv;
