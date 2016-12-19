@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Primetime.Models.Genre>
+
+@{
+    ViewBag.Title = "genreIndex";
+}
+
+<h2>Genre Index</h2>
+
+<p>
+    @Html.ActionLink("Add a Genre", "addAGenre") |
+    @Html.ActionLink("Access movie collection", "adminIndex")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "updateAGenre", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "deleteAGenre", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

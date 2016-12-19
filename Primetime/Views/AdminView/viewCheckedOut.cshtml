@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Primetime.Models.Movie>
+
+@{
+    ViewBag.Title = "viewCheckedOut";
+}
+
+<h2>Currently checked out</h2>
+
+@Html.ActionLink("Access genre collection", "adminGenreIndex") |
+@Html.ActionLink("Access movie collection", "adminIndex")
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isCheckedOut)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isCheckedOut)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
