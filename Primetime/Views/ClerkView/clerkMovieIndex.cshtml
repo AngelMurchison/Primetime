@@ -5,7 +5,7 @@
 }
 
 <h2>Movies</h2>
-
+@Html.ActionLink("Check In a Movie", "allCheckedOut")
 <table class="table">
     <tr>
         <th>
@@ -31,10 +31,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.isCheckedOut)
         </td>
+        @if(item.isCheckedOut == false)
+        {
         <td>
-            @Html.ActionLink("Check In", "checkIn", new { id=item.Id }) |
-            @Html.ActionLink("Check Out", "checkOut", new { id=item.Id })
+           
+            @Html.ActionLink("Check Out", "checkOut", new { movieid=item.Id })
         </td>
+        }
     </tr>
 }
 

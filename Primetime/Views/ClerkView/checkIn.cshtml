@@ -37,7 +37,7 @@
 
     </dl>
 
-    @using (Html.BeginForm("confirmCheckIn", "ClerkView", new { id = Model.Id })) { // might break ur actionlink
+    @using (Html.BeginForm("confirmCheckIn", "ClerkView", new { id = Model.Id })) { 
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

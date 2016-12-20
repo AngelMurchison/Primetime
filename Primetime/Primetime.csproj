@@ -150,7 +150,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminViewController.cs" />
     <Compile Include="Controllers\ClerkViewController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -217,6 +216,9 @@
     <Content Include="Views\AdminView\viewCheckedOut.cshtml" />
     <Content Include="Views\AdminView\viewOverDue.cshtml" />
     <Content Include="Views\AdminView\deleteAMovie.cshtml" />
+    <Content Include="Views\AdminView\editAMovie.cshtml" />
+    <Content Include="Views\ClerkView\getCustomerInfo.cshtml" />
+    <Content Include="Views\ClerkView\allCheckedOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

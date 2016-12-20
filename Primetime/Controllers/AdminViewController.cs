@@ -41,27 +41,27 @@ namespace Primetime.Controllers
             return RedirectToAction("adminIndex");
         } //  finish edit and delete functionality.
 
-        public ActionResult editAMovie(MovieViewModel movievm)
+        public ActionResult editAMovie(int id)
         {
-            return View(movievm);
+            var movie = MovieServices.getAMovie(id);
+            return View(movie);
         }
 
-        public ActionResult movieEdit(MovieViewModel movievm)
-        {
-            var movie = MovieServices.ViewModeltoMovie(movievm);
+        public ActionResult movieEdit(Movie movie)
+        { 
             MovieServices.editAMovie(movie);
             return RedirectToAction("adminIndex");
         }
 
-        public ActionResult deleteAMovie(MovieViewModel movievm)
+        public ActionResult deleteAMovie(int id)
         {
-            return View(movievm);
+            var movie =  MovieServices.getAMovie(id);
+            return View(movie);
         }
 
-        public ActionResult movieDeletion(MovieViewModel movievm)
-        {
-            var movie = MovieServices.ViewModeltoMovie(movievm);
-            MovieServices.deleteAMovie(movievm); // make this, add this controller to delete button.      
+        public ActionResult movieDeletion(Movie movie)
+        { 
+            MovieServices.deleteAMovie(movie);      
             return RedirectToAction("adminIndex");
         }
 
@@ -91,17 +91,17 @@ namespace Primetime.Controllers
         public ActionResult genreDeletion(Genre genre)
         {
             GenreServices.deleteAGenre(genre);
-            return RedirectToAction("genreIndex");
+            return RedirectToAction("adminGenreIndex");
         }
         public ActionResult genreAddition(Genre genre)
         {
             GenreServices.addAGenre(genre);
-            return RedirectToAction("genreIndex");
+            return RedirectToAction("adminGenreIndex");
         }
         public ActionResult genreUpdating(Genre genre)
         {
             GenreServices.updateAGenre(genre.name, genre.Id);
-            return RedirectToAction("genreIndex");
+            return RedirectToAction("adminGenreIndex");
         }
     }
 }

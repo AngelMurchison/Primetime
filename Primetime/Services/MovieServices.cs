@@ -96,7 +96,7 @@ namespace Primetime.Services
                 {
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = $@"SELECT Name, Description, isCheckedOut FROM Movie WHERE Id = {id}";
+                    cmd.CommandText = $@"SELECT Name, Description, isCheckedOut, genreID FROM Movie WHERE Id = {id}";
 
                     connection.Open();
                     var reader = cmd.ExecuteReader();
@@ -105,13 +105,15 @@ namespace Primetime.Services
                         var Name = reader[0];
                         var Description = reader[1];
                         var isCheckedOut = reader[2];
+                        var genreID = reader[3];
 
                         var movie = new Movie
                         {
                             Id = id,
                             name = Name as string,
                             description = Description as string,
-                            isCheckedOut = isCheckedOut as bool?
+                            isCheckedOut = isCheckedOut as bool?,
+                            genreID = genreID as int?
                         };
                         rv = movie;
                     }
@@ -121,7 +123,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkInAMovie(int id) // need to make such that duebackdate is reset, rental log is filled.
+        public static void checkInAMovie(int id)
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -130,6 +132,7 @@ namespace Primetime.Services
                     cmd.Connection = connection;
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = $@"UPDATE Movie SET isCheckedOut=0 WHERE Id={id};";
+                   
 
                     connection.Open();
                     var reader = cmd.ExecuteReader();
@@ -138,7 +141,7 @@ namespace Primetime.Services
             }
         }
 
-        public static void checkOutAMovie(int id) // need to make such that duebackdate is datetime.now+10, rental log is filled.
+        public static void checkOutAMovie(int id)
         {
             using (var connection = new SqlConnection(connectionStrings))
             {
@@ -274,13 +277,12 @@ namespace Primetime.Services
                     while (reader.Read())
                     {
                         var genreid = reader[0];
-
                         rv = new Movie()
                         {
                             name = movievm.name,
                             description = movievm.description,
                             genreID = genreid as int?,
-                            isCheckedOut = false
+                            isCheckedOut = movievm.isCheckedOut
                         };
 
                     }
@@ -288,5 +290,44 @@ namespace Primetime.Services
                 return rv;
             }
         } // reader.read is not executing.
+
+        public static void deleteAMovie(Movie movie)
+        {
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM RentalLog WHERE RentalLog.MovieId = @id; DELETE FROM Movie WHERE Id = @id;";
+                    cmd.Parameters.AddWithValue("@id", movie.Id);
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    connection.Close();
+                }
+            }
+        }
+
+        public static void editAMovie(Movie movie)
+        {
+            using (var connection = new SqlConnection(connectionStrings))
+            {
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = $@"UPDATE Movie SET Name= @name, Description = @description, genreID = @genreID, isCheckedOut = @isCheckedout WHERE Id=@id;";
+                    cmd.Parameters.AddWithValue("name", movie.name);
+                    cmd.Parameters.AddWithValue("description", movie.description);
+                    cmd.Parameters.AddWithValue("genreID", movie.genreID);
+                    cmd.Parameters.AddWithValue("isCheckedOut", movie.isCheckedOut);
+                    cmd.Parameters.AddWithValue("id", movie.Id);
+
+                    connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    connection.Close();
+                }
+            }
+        }
     }
 }

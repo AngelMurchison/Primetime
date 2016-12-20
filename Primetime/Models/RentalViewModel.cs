@@ -14,6 +14,6 @@ namespace Primetime.Models
         public string movieName { get; set; }
         public DateTime? rentalDate { get; set; }
         public DateTime? dueDate { get; set; }
-        public bool checkedOut { get; set; } // Don't know if should be in movie or Rental or viewModel
+        public bool? checkedOut { get; set; } // Don't know if should be in movie or Rental or viewModel
     }
 }

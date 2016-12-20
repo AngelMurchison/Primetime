@@ -8,10 +8,11 @@ using Primetime.Services;
 
 namespace Primetime.Controllers
 {
-   
+
+
     public class ClerkViewController : Controller
     {
-        public static List<Customer> allCustomers = new List<Customer>();
+        public static Rental rentalathand = new Rental() { };
 
         [HttpGet]
         public ActionResult clerkMovieIndex()
@@ -32,29 +33,40 @@ namespace Primetime.Controllers
             var movie = MovieServices.getAMovie(id);
             return View(movie);
         }
-        [HttpPost]
         public ActionResult confirmCheckIn(int id)
         {
-            MovieServices.checkInAMovie(id);
-            return RedirectToAction("clerkMovieIndex");
-        }
- 
-        public ActionResult checkOut(int id)
-        {
-            var movie = MovieServices.getAMovie(id);
-            return View(movie);
-        }
-        [HttpPost]
-        public ActionResult confirmCheckOut(int id)
-        {
-            MovieServices.checkOutAMovie(id);
+            var rental = RentalServices.getARental(id);
+            RentalServices.checkInARental(rental);
             return RedirectToAction("clerkMovieIndex");
         }
 
+        public ActionResult allCheckedOut()
+        {
+            var allCheckedOut = RentalServices.getCheckedOutRentals();
+            return View(allCheckedOut);
+        }
+        public ActionResult checkOut(int movieid)
+        {
+            var movie = MovieServices.getAMovie(movieid);
+            rentalathand.movieID = movieid;
+            return View(movie);
+        }
+        public ActionResult confirmCheckOut(int customerid)
+        {
+            rentalathand.customerID = customerid;
+            rentalathand.rentalDate = DateTime.Today;
+            rentalathand.dueDate = DateTime.Now.AddDays(10);
+            rentalathand.checkedOut = true;
+            RentalServices.checkOutARental(rentalathand);
+            MovieServices.checkOutAMovie((int)rentalathand.movieID);
+            return RedirectToAction("clerkMovieIndex");
+        }
+
+        [HttpGet]
         public ActionResult clerkCustomerIndex()
         {
             var customers = Services.CustomerServices.getAllCustomers();
-            if(customers.Count == 0)
+            if (customers.Count == 0)
             {
                 Services.CustomerServices.initializeCustomers();
             }
@@ -62,11 +74,16 @@ namespace Primetime.Controllers
             return View(customers);
         }
 
+        public ActionResult getCustomerInfo()
+        {
+            var allcustomers = CustomerServices.getAllCustomers();
+            return View(allcustomers);
+        }
+
         public ActionResult createACustomer()
         {
             return View();
         }
-
         public ActionResult customerCreation(string name, string email, string phoneNumber)
         {
             var customer = new Customer()
@@ -84,7 +101,6 @@ namespace Primetime.Controllers
             var customer = Services.CustomerServices.getACustomer(id);
             return View(customer);
         }
-
         public ActionResult customerDeletion(int id)
         {
             Services.CustomerServices.removeACustomer(id);
@@ -96,15 +112,10 @@ namespace Primetime.Controllers
             var customer = Services.CustomerServices.getACustomer(id);
             return View(customer);
         }
-
         public ActionResult customerEdit(string name, string email, string phoneNumber, int id)
         {
             Services.CustomerServices.editACustomer(id, name, email, phoneNumber);
             return RedirectToAction("clerkCustomerIndex");
         }
-
-
-
-
     }
 }
